@@ -24,9 +24,9 @@ enemy_coordinates = CoordinatesText(enemy_lower_grid)
 nav_button = NavButton()
 
 
-my_ship = Ships(
+my_four_deck = Ships(
     model='assets/models/newport/uss_newport_news_war_thunder.glb',
     scale=.015,
     rotation=Vec3(90, -90, 0),
-    position=Vec3(10, 0.02, 0)
+    position=Vec3(10, 0.02, 5)
 )

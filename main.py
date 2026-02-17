@@ -2,7 +2,7 @@ from ursina import *
 
 from icecream import ic
 
-from classes.create_objects import my_water_area, my_grid_overlay, my_lower_grid, enemy_water_area, enemy_grid_overlay, enemy_lower_grid, my_coordinates, enemy_coordinates, nav_button, my_ship
+from classes.create_objects import my_water_area, my_grid_overlay, my_lower_grid, enemy_water_area, enemy_grid_overlay, enemy_lower_grid, my_coordinates, enemy_coordinates, nav_button, my_four_deck
 
 
 
