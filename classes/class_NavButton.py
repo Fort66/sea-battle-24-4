@@ -15,13 +15,12 @@ class NavButton(Button):
             position=position,
         )
 
-        self.on_click = self.move_camera
-        self.old_coordinates = camera.position
+        self.enemy_position = False
+        self.on_click = self.change_value
 
 
-    def move_camera(self):
-        if camera.position != Vec3(-30, 0, 0):
-            camera.position -= Vec3(1, 0, 0)
+    def change_value(self):
+        self.enemy_position = not self.enemy_position
 
 
 

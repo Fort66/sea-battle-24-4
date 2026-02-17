@@ -1,8 +1,5 @@
 from ursina import Entity, Text, color, Vec3
 
-from . create_objects import my_lower_grid
-
-
 from string import ascii_letters
 
 class CoordinatesText:
@@ -11,43 +8,24 @@ class CoordinatesText:
         self.digits_list = [str(i) for i in range(1, 11)]
         self.grid = grid
 
-        self.draw_coordinates()
+        self.set_coordinates()
 
-    def draw_coordinates(self):
+    def draw_coordinates(self, iteration_object, idx, cells):
+
+        Entity(
+                model=Text(
+                    text=iteration_object[idx],
+                    color=color.white,
+                ),
+                scale=20,
+                rotation=Vec3(90, 0, 0),
+            ).position = self.grid.map_position_cells[cells]
+
+    def set_coordinates(self):
         for i in range(1, 11):
-            Entity(
-                model=Text(
-                    text=self.letters_list[i - 1],
-                    color=color.white,
-                ),
-                scale=20,
-                rotation=Vec3(90, 0, 0),
-            ).position = self.grid.map_position_cells[(i, 11)]
+            self.draw_coordinates(self.letters_list, (i - 1), (i, 11))
+            self.draw_coordinates(self.letters_list, (i - 1), (i, 0))
+            self.draw_coordinates(self.digits_list, (i - 1), (11, i))
+            self.draw_coordinates(self.digits_list, (i - 1), (0, i))
 
-            Entity(
-                model=Text(
-                    text=self.letters_list[i - 1],
-                    color=color.white,
-                ),
-                scale=20,
-                rotation=Vec3(90, 0, 0),
-            ).position = self.grid.map_position_cells[(i, 0)]
-
-            Entity(
-                model=Text(
-                    text=self.digits_list[i - 1],
-                    color=color.white,
-                ),
-                scale=20,
-                rotation=Vec3(90, 0, 0),
-            ).position = self.grid.map_position_cells[(11, i)]
-
-            Entity(
-                model=Text(
-                    text=self.digits_list[i - 1],
-                    color=color.white,
-                ),
-                scale=20,
-                rotation=Vec3(90, 0, 0),
-            ).position = self.grid.map_position_cells[(0, i)]
 
