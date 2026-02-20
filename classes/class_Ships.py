@@ -1,56 +1,53 @@
 from ursina import Entity, color, Vec3, mouse, scene
-from ursina.prefabs.draggable import Draggable
-
 
 from icecream import ic
 
-# my_ship = Entity(
-#         model='assets/models/newport/uss_newport_news_war_thunder.glb',
-#         scale=.015,
-#         rotation=Vec3(90, 0, 0),
-#         position=Vec3(10, 0.02, 0)
-#     )
-
-
-# class Ships(Entity):
-#     def __init__(self):
-#         super().__init__(
-#             model='assets/models/newport/uss_newport_news_war_thunder.glb',
-#             scale=.015,
-#             rotation=Vec3(90, 0, 0),
-#             position=Vec3(10, 0.02, 0)
-#         )
-
-
 class Ships(Entity):
     def __init__(self,
-                model='',
-                texture='',
+                water=None,
+                model=None,
+                texture=None,
                 scale=1,
                 rotation=Vec3(0, 0, 0),
-                position=Vec3(0, 0, 0)
+                position=Vec3(0, 0, 0),
+                deck_amount=0,
                 ):
 
         super().__init__(
             model=model,
+            texture=texture,
             scale=scale,
             rotation=rotation,
             position=position,
             collider='box'
         )
 
+        self.water = water
         self.model = model
         self.texture = texture
         self.scale = scale
         self.rotation = rotation
         self.position = position
+        self.deck_amount = deck_amount
 
-        self.is_grabbed = False
+        self.is_grabbed = True
+        self.is_selected = False
+        self.following_mouse = False
 
     def input(self, key):
-        if key == 'left mouse down':
-            if mouse.hovered_entity == self:
-                self.is_grabbed = True
-                ic(self.is_grabbed)
-                Draggable(parent=scene, model=self,
-                        plane_direction=(1,0,1), lock=(0,1,0))
+        if self.is_grabbed:
+            if key == 'left mouse down' and mouse.hovered_entity == self:
+                self.following_mouse = True
+                self.is_selected = True
+
+            if key == 'left mouse up':
+                self.following_mouse = False
+                self.is_selected = False
+
+            if key == 'right mouse down' and self.is_selected:
+                self.rotation = Vec3(0, 90, 0)
+
+    def update(self):
+        if self.following_mouse:
+            self.position = Vec3(mouse.world_point[0], 0, mouse.world_point[2])
+
